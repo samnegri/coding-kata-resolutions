@@ -5,5 +5,4 @@ package br.com.sam.tests.harrypotter;
  */
 public enum HarryPotterBook {
     FIRST, SECOND, THIRD, FOURTH, FIFTH
-
 }

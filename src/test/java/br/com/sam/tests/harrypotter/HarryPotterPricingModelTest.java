@@ -1,11 +1,7 @@
 package br.com.sam.tests.harrypotter;
 
-import br.com.sam.tests.harrypotter.HarryPotterBook;
-import br.com.sam.tests.harrypotter.HarryPotterPricingModel;
 import org.junit.Test;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,96 +13,88 @@ import static org.junit.Assert.assertThat;
  */
 public class HarryPotterPricingModelTest {
 
+    private HarryPotterPricingModel pricingModel = new HarryPotterPricingModel();
+
     @Test
     public void oneBookTest() {
-        HarryPotterPricingModel pricingModel = new HarryPotterPricingModel();
         List<HarryPotterBook> books = new ArrayList<>();
         books.add(HarryPotterBook.FIRST);
-        assertThat(pricingModel.calculateFor(books), is(toBigDecimalWithScale(8)));
+        assertThat(pricingModel.calculateFor(books), is((double) 8));
     }
 
     @Test
     public void twoDifferentBooksTest() {
-        HarryPotterPricingModel pricingModel = new HarryPotterPricingModel();
         List<HarryPotterBook> books = new ArrayList<>();
         books.add(HarryPotterBook.FIRST);
         books.add(HarryPotterBook.SECOND);
-        assertThat(pricingModel.calculateFor(books), is(toBigDecimalWithScale(15.2)));
+        assertThat(pricingModel.calculateFor(books), is(15.2));
     }
 
     @Test
     public void threeDifferentBooksTest() {
-        HarryPotterPricingModel pricingModel = new HarryPotterPricingModel();
         List<HarryPotterBook> books = new ArrayList<>();
         books.add(HarryPotterBook.FIRST);
         books.add(HarryPotterBook.SECOND);
         books.add(HarryPotterBook.THIRD);
-        assertThat(pricingModel.calculateFor(books), is(toBigDecimalWithScale(21.6)));
+        assertThat(pricingModel.calculateFor(books), is(21.6));
     }
 
     @Test
     public void fourDifferentBooksTest() {
-        HarryPotterPricingModel pricingModel = new HarryPotterPricingModel();
         List<HarryPotterBook> books = new ArrayList<>();
         books.add(HarryPotterBook.FIRST);
         books.add(HarryPotterBook.SECOND);
         books.add(HarryPotterBook.THIRD);
         books.add(HarryPotterBook.FOURTH);
-        assertThat(pricingModel.calculateFor(books), is(toBigDecimalWithScale(25.6)));
+        assertThat(pricingModel.calculateFor(books), is(25.6));
     }
 
     @Test
     public void fiveDifferentBooksTest() {
-        HarryPotterPricingModel pricingModel = new HarryPotterPricingModel();
         List<HarryPotterBook> books = new ArrayList<>();
         books.add(HarryPotterBook.FIRST);
         books.add(HarryPotterBook.SECOND);
         books.add(HarryPotterBook.THIRD);
         books.add(HarryPotterBook.FOURTH);
         books.add(HarryPotterBook.FIFTH);
-        assertThat(pricingModel.calculateFor(books), is(toBigDecimalWithScale(30)));
+        assertThat(pricingModel.calculateFor(books), is((double) 30));
     }
 
     @Test
     public void twoEqualsBooksTest() {
-        HarryPotterPricingModel pricingModel = new HarryPotterPricingModel();
         List<HarryPotterBook> books = new ArrayList<>();
         books.add(HarryPotterBook.FIRST);
         books.add(HarryPotterBook.FIRST);
-        assertThat(pricingModel.calculateFor(books), is(toBigDecimalWithScale(16)));
+        assertThat(pricingModel.calculateFor(books), is((double) 16));
     }
 
     @Test
     public void twoEqualsAndOneDifferentBooksTest() {
-        HarryPotterPricingModel pricingModel = new HarryPotterPricingModel();
         List<HarryPotterBook> books = new ArrayList<>();
         books.add(HarryPotterBook.FIRST);
         books.add(HarryPotterBook.FIRST);
         books.add(HarryPotterBook.SECOND);
-        assertThat(pricingModel.calculateFor(books), is(toBigDecimalWithScale(23.2)));
+        assertThat(pricingModel.calculateFor(books), is(23.2));
     }
 
     @Test
     public void twoEqualsAndTwoDifferentBooksTest() {
-        HarryPotterPricingModel pricingModel = new HarryPotterPricingModel();
         List<HarryPotterBook> books = new ArrayList<>();
         books.add(HarryPotterBook.FIRST);
         books.add(HarryPotterBook.FIRST);
         books.add(HarryPotterBook.SECOND);
         books.add(HarryPotterBook.SECOND);
-        assertThat(pricingModel.calculateFor(books), is(toBigDecimalWithScale(30.4)));
+        assertThat(pricingModel.calculateFor(books), is(30.4));
     }
 
     @Test
     public void noBooksTest() {
-        HarryPotterPricingModel pricingModel = new HarryPotterPricingModel();
         List<HarryPotterBook> books = new ArrayList<>();
-        assertThat(pricingModel.calculateFor(books), is(toBigDecimalWithScale(0.0)));
+        assertThat(pricingModel.calculateFor(books), is(0.0));
     }
 
     @Test
     public void twoEqualsAndFiveDifferentBooksTest() {
-        HarryPotterPricingModel pricingModel = new HarryPotterPricingModel();
         List<HarryPotterBook> books = new ArrayList<>();
         books.add(HarryPotterBook.FIRST);
         books.add(HarryPotterBook.FIRST);
@@ -114,12 +102,11 @@ public class HarryPotterPricingModelTest {
         books.add(HarryPotterBook.THIRD);
         books.add(HarryPotterBook.FOURTH);
         books.add(HarryPotterBook.FIFTH);
-        assertThat(pricingModel.calculateFor(books), is(toBigDecimalWithScale(38.0)));
+        assertThat(pricingModel.calculateFor(books), is(38.0));
     }
 
     @Test
     public void fourDifferentBooksTwiceTest() {
-        HarryPotterPricingModel pricingModel = new HarryPotterPricingModel();
         List<HarryPotterBook> books = new ArrayList<>();
         books.add(HarryPotterBook.FIRST);
         books.add(HarryPotterBook.FIRST);
@@ -129,12 +116,11 @@ public class HarryPotterPricingModelTest {
         books.add(HarryPotterBook.THIRD);
         books.add(HarryPotterBook.FOURTH);
         books.add(HarryPotterBook.FIFTH);
-        assertThat(pricingModel.calculateFor(books), is(toBigDecimalWithScale(51.2)));
+        assertThat(pricingModel.calculateFor(books), is(51.2));
     }
 
     @Test
-    public void afourDifferentBooksTwiceTest() {
-        HarryPotterPricingModel pricingModel = new HarryPotterPricingModel();
+    public void threeMaxDiscountAndTwoFourBooksDiscountTest() {
         List<HarryPotterBook> books = new ArrayList<>();
         books.add(HarryPotterBook.FIRST);
         books.add(HarryPotterBook.FIRST);
@@ -159,11 +145,8 @@ public class HarryPotterPricingModelTest {
         books.add(HarryPotterBook.FIFTH);
         books.add(HarryPotterBook.FIFTH);
         books.add(HarryPotterBook.FIFTH);
-        assertThat(pricingModel.calculateFor(books), is(toBigDecimalWithScale(141.2)));
+        assertThat(pricingModel.calculateFor(books), is(141.2));
     }
 
 
-    private BigDecimal toBigDecimalWithScale(double val) {
-        return new BigDecimal(val).setScale(2, RoundingMode.HALF_EVEN);
-    }
 }

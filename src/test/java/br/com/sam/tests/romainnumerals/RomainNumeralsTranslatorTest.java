@@ -8,7 +8,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by Samuel Negri Morais on 1/14/18.
  */
-public class RomainNumeralsDojoTests {
+public class RomainNumeralsTranslatorTest {
 
     private RomainNumeralsTranslator translator = new RomainNumeralsTranslator();
 

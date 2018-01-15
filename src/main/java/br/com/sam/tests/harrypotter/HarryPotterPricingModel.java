@@ -1,9 +1,5 @@
 package br.com.sam.tests.harrypotter;
 
-import br.com.sam.tests.harrypotter.HarryPotterBook;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +8,38 @@ import java.util.List;
  */
 public class HarryPotterPricingModel {
 
-    public BigDecimal calculateFor(List<HarryPotterBook> books) {
+    public double calculateFor(List<HarryPotterBook> books) {
+        List<List<HarryPotterBook>> qttByBook = fillBookLists(books);
+        checkForBetterDiscount(qttByBook);
+        return calculateTotalValue(qttByBook);
+    }
+
+    private double calculateTotalValue(List<List<HarryPotterBook>> qttByBook) {
+        double value = 0;
+        for (List<HarryPotterBook> list : qttByBook) {
+            value += list.size() * 8 * getDiscount(list.size());
+        }
+        return value;
+    }
+
+    private void checkForBetterDiscount(List<List<HarryPotterBook>> qttByBook) {
+        List<HarryPotterBook> fullList = null;
+        List<HarryPotterBook> threeBooksList = null;
+        for (List<HarryPotterBook> harryPotterBooks : qttByBook) {
+            if (harryPotterBooks.size() == HarryPotterBook.values().length) {
+                fullList = harryPotterBooks;
+            }
+            if (harryPotterBooks.size() == 3) {
+                threeBooksList = harryPotterBooks;
+            }
+        }
+
+        if (fullList != null && threeBooksList != null) {
+            changeBookToSingleList(fullList, threeBooksList);
+        }
+    }
+
+    private List<List<HarryPotterBook>> fillBookLists(List<HarryPotterBook> books) {
         List<List<HarryPotterBook>> qttByBook = new ArrayList<>();
         for (HarryPotterBook book : books) {
             boolean added = false;
@@ -22,39 +49,18 @@ public class HarryPotterPricingModel {
                 i++;
             }
 
-            if(i==qttByBook.size() && !added){
+            if (i == qttByBook.size() && !added) {
                 qttByBook.add(createNewList(book));
             }
         }
-
-        double value = 0;
-        List<HarryPotterBook> fullList = null;
-        List<HarryPotterBook> singleBookList = null;
-        for (List<HarryPotterBook> harryPotterBooks : qttByBook) {
-            if(harryPotterBooks.size() == HarryPotterBook.values().length) {
-                fullList = harryPotterBooks;
-            }
-            if(harryPotterBooks.size() == 3) {
-                singleBookList = harryPotterBooks;
-            }
-        }
-
-        if(fullList != null && singleBookList != null) {
-            changeBookToSingleList(fullList, singleBookList);
-        }
-
-        for(List<HarryPotterBook> list : qttByBook) {
-            value += list.size() * 8 * getDiscount(list.size());
-        }
-
-        return new BigDecimal(value).setScale(2, RoundingMode.HALF_EVEN);
+        return qttByBook;
     }
 
-    private void changeBookToSingleList(List<HarryPotterBook> fullList, List<HarryPotterBook> singleBookList) {
+    private void changeBookToSingleList(List<HarryPotterBook> fullList, List<HarryPotterBook> threeBooksList) {
         for (HarryPotterBook harryPotterBook : fullList) {
-            if(!singleBookList.contains(harryPotterBook)) {
+            if (!threeBooksList.contains(harryPotterBook)) {
                 fullList.remove(harryPotterBook);
-                singleBookList.add(harryPotterBook);
+                threeBooksList.add(harryPotterBook);
                 return;
             }
         }
@@ -63,11 +69,21 @@ public class HarryPotterPricingModel {
     private Double getDiscount(int qtdDifferentBooks) {
         Double discount = 0.0;
         switch (qtdDifferentBooks) {
-            case 1 : discount = 1.0; break;
-            case 2 : discount = 0.95; break;
-            case 3 : discount = 0.90; break;
-            case 4 : discount = 0.80; break;
-            case 5 : discount = 0.75; break;
+            case 1:
+                discount = 1.0;
+                break;
+            case 2:
+                discount = 0.95;
+                break;
+            case 3:
+                discount = 0.90;
+                break;
+            case 4:
+                discount = 0.80;
+                break;
+            case 5:
+                discount = 0.75;
+                break;
         }
         return discount;
     }
