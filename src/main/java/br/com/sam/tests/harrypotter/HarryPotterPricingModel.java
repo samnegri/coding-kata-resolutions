@@ -28,8 +28,7 @@ public class HarryPotterPricingModel {
         for (List<HarryPotterBook> harryPotterBooks : qttByBook) {
             if (harryPotterBooks.size() == HarryPotterBook.values().length) {
                 fullList = harryPotterBooks;
-            }
-            if (harryPotterBooks.size() == 3) {
+            } else if (harryPotterBooks.size() == 3) {
                 threeBooksList = harryPotterBooks;
             }
         }
@@ -43,13 +42,10 @@ public class HarryPotterPricingModel {
         List<List<HarryPotterBook>> qttByBook = new ArrayList<>();
         for (HarryPotterBook book : books) {
             boolean added = false;
-            int i = 0;
-            while (!added && i < qttByBook.size()) {
+            for (int i = 0; !added && i < qttByBook.size(); i++) {
                 added = addIfNotExists(book, qttByBook.get(i));
-                i++;
             }
-
-            if (i == qttByBook.size() && !added) {
+            if (!added) {
                 qttByBook.add(createNewList(book));
             }
         }
