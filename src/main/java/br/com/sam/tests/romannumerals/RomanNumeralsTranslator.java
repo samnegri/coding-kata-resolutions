@@ -22,22 +22,25 @@ public class RomanNumeralsTranslator {
         Integer acum = 0;
         StringBuilder roman = new StringBuilder();
 
-        Optional<RomanNumerals> max2 = getMaxNumeralPossibleEnum(num);
+        Optional<RomanNumerals> maybeMax = getMaxNumeralPossibleEnum(num);
 
-        while(max2.isPresent()) {
-            RomanNumerals max = max2.get();
+        while(maybeMax.isPresent()) {
+            RomanNumerals max = maybeMax.get();
             acum += max.value;
             roman.append(max);
-            max2 = getMaxNumeralPossibleEnum(num - acum);
+            maybeMax = getMaxNumeralPossibleEnum(num - acum);
         }
 
         return roman.toString();
-
-
     }
 
     public Integer toInteger(String roman) {
-        Integer value = getCorrespondingValue(String.valueOf(roman.charAt(0))).get();
+        Integer value = 0;
+        for (int i = 0; i < roman.length(); i++) {
+            Integer correspondingValue = getCorrespondingValue(String.valueOf(roman.charAt(i)))
+                .orElseThrow(() -> new RuntimeException("Invalid number"));
+            value += correspondingValue;
+        }
         return value;
     }
 
