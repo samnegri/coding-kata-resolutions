@@ -32,7 +32,7 @@ public class RomanNumeralsTranslatorTest {
     private RomanNumeralsTranslator translator = new RomanNumeralsTranslator();
 
     @Test
-    public void mainNumeralsTest() {
+    public void toRomanMainNumeralsTest() {
         assertThat(translator.toRoman(1), is("I"));
         assertThat(translator.toRoman(5), is("V"));
         assertThat(translator.toRoman(10), is("X"));
@@ -43,7 +43,7 @@ public class RomanNumeralsTranslatorTest {
     }
 
     @Test
-    public void repeatingNumeralsTest() {
+    public void toRomanRepeatingNumeralsTest() {
         assertThat(translator.toRoman(2), is("II"));
         assertThat(translator.toRoman(8), is("VIII"));
         assertThat(translator.toRoman(17), is("XVII"));
@@ -54,12 +54,23 @@ public class RomanNumeralsTranslatorTest {
     }
 
     @Test
-    public void dontRepeatWhenAboutToChangeNumeralTest() {
+    public void toRomanDontRepeatWhenAboutToChangeNumeralTest() {
         assertThat(translator.toRoman(4), is("IV"));
         assertThat(translator.toRoman(9), is("IX"));
         assertThat(translator.toRoman(40), is("XL"));
         assertThat(translator.toRoman(90), is("XC"));
         assertThat(translator.toRoman(400), is("CD"));
         assertThat(translator.toRoman(900), is("CM"));
+    }
+
+    @Test
+    public void toIntegerMainNumeralsTest() {
+        assertThat(translator.toInteger("I"), is(1));
+        assertThat(translator.toInteger("V"), is(5));
+        assertThat(translator.toInteger("X"), is(10));
+        assertThat(translator.toInteger("L"), is(50));
+        assertThat(translator.toInteger("C"), is(100));
+        assertThat(translator.toInteger("D"), is(500));
+        assertThat(translator.toInteger("M"), is(1000));
     }
 }

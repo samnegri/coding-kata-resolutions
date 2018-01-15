@@ -36,6 +36,18 @@ public class RomanNumeralsTranslator {
 
     }
 
+    public Integer toInteger(String roman) {
+        Integer value = getCorrespondingValue(String.valueOf(roman.charAt(0))).get();
+        return value;
+    }
+
+    private Optional<Integer> getCorrespondingValue(String romanValue) {
+        return Arrays.stream(RomanNumerals.values())
+            .filter(romanNumerals -> romanNumerals.equals(RomanNumerals.valueOf(romanValue)))
+            .map(romanNumeral -> romanNumeral.value)
+            .max(Integer::compareTo);
+    }
+
     private Optional<RomanNumerals> getMaxNumeralPossibleEnum(int limit) {
         return Arrays.stream(RomanNumerals.values())
             .filter(romanNumerals -> romanNumerals.value <= limit)
