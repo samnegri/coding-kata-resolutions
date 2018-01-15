@@ -16,6 +16,10 @@ public class RomanNumeralsTranslator {
         RomanNumerals(int value) {
             this.value = value;
         }
+
+        public Integer getValue() {
+            return value;
+        }
     }
 
     String toRoman(Integer num) {
@@ -37,40 +41,23 @@ public class RomanNumeralsTranslator {
     public Integer toInteger(String roman) {
         Integer value = 0;
         for (int i = 0; i < roman.length(); i++) {
-            Integer correspondingValue;
-            if(roman.length() >= i+2) {
-                Optional<Integer> maybeCorrespondingValue = getCorrespondingValue(roman.substring(i, i+2));
-
-                if (!maybeCorrespondingValue.isPresent()) {
-                    correspondingValue = getCorrespondingValue(roman.substring(i, i+1))
-                        .orElseThrow(() -> new RuntimeException("Invalid Number"));
-                } else {
-                    correspondingValue = maybeCorrespondingValue.get();
-                    i++;
-                }
+            if (roman.length() >= i + 2 && getCorrespondingValue(roman.substring(i, i + 2)).isPresent()) {
+                value += getCorrespondingValue(roman.substring(i, i + 2)).get();
+                i++;
             } else {
-                correspondingValue = getCorrespondingValue(roman.substring(i, i+1))
+                value += getCorrespondingValue(roman.substring(i, i + 1))
                     .orElseThrow(() -> new RuntimeException("Invalid Number"));
             }
-
-            value += correspondingValue;
         }
         return value;
     }
 
     private Optional<Integer> getCorrespondingValue(String romanValue) {
-        Optional<String> first = Arrays.asList(RomanNumerals.values()).stream()
+        return Arrays.stream(RomanNumerals.values())
             .map(Enum::toString)
             .filter(numeral -> numeral.equals(romanValue))
-            .findFirst();
-
-        if(!first.isPresent())
-            return Optional.empty();
-
-
-        return Arrays.stream(RomanNumerals.values())
-            .filter(romanNumerals -> romanNumerals.equals(RomanNumerals.valueOf(romanValue)))
-            .map(romanNumeral -> romanNumeral.value)
+            .map(RomanNumerals::valueOf)
+            .map(RomanNumerals::getValue)
             .max(Integer::compareTo);
     }
 
