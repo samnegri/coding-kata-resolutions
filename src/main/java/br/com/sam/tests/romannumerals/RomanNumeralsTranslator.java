@@ -38,7 +38,7 @@ public class RomanNumeralsTranslator {
         return roman.toString();
     }
 
-    public Integer toInteger(String roman) {
+    Integer toInteger(String roman) {
         Integer value = 0;
         for (int i = 0; i < roman.length(); i++) {
             if (roman.length() >= i + 2 && getCorrespondingValue(roman.substring(i, i + 2)).isPresent()) {
