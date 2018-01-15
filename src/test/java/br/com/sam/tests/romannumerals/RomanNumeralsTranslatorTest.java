@@ -85,4 +85,14 @@ public class RomanNumeralsTranslatorTest {
         assertThat(translator.toInteger("DCCLXVII"), is(767));
         assertThat(translator.toInteger("MDCCLXVII"), is(1767));
     }
+
+    @Test
+    public void toIntegerDontRepeatWhenAboutToChangeNumeralTest() {
+        assertThat(translator.toInteger("IV"), is(4));
+        assertThat(translator.toInteger("IX"), is(9));
+        assertThat(translator.toInteger("XL"), is(40));
+        assertThat(translator.toInteger("XC"), is(90));
+        assertThat(translator.toInteger("CD"), is(400));
+        assertThat(translator.toInteger("CM"), is(900));
+    }
 }

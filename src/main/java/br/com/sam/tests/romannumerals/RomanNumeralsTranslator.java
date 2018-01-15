@@ -37,14 +37,37 @@ public class RomanNumeralsTranslator {
     public Integer toInteger(String roman) {
         Integer value = 0;
         for (int i = 0; i < roman.length(); i++) {
-            Integer correspondingValue = getCorrespondingValue(String.valueOf(roman.charAt(i)))
-                .orElseThrow(() -> new RuntimeException("Invalid number"));
+            Integer correspondingValue;
+            if(roman.length() >= i+2) {
+                Optional<Integer> maybeCorrespondingValue = getCorrespondingValue(roman.substring(i, i+2));
+
+                if (!maybeCorrespondingValue.isPresent()) {
+                    correspondingValue = getCorrespondingValue(roman.substring(i, i+1))
+                        .orElseThrow(() -> new RuntimeException("Invalid Number"));
+                } else {
+                    correspondingValue = maybeCorrespondingValue.get();
+                    i++;
+                }
+            } else {
+                correspondingValue = getCorrespondingValue(roman.substring(i, i+1))
+                    .orElseThrow(() -> new RuntimeException("Invalid Number"));
+            }
+
             value += correspondingValue;
         }
         return value;
     }
 
     private Optional<Integer> getCorrespondingValue(String romanValue) {
+        Optional<String> first = Arrays.asList(RomanNumerals.values()).stream()
+            .map(Enum::toString)
+            .filter(numeral -> numeral.equals(romanValue))
+            .findFirst();
+
+        if(!first.isPresent())
+            return Optional.empty();
+
+
         return Arrays.stream(RomanNumerals.values())
             .filter(romanNumerals -> romanNumerals.equals(RomanNumerals.valueOf(romanValue)))
             .map(romanNumeral -> romanNumeral.value)
